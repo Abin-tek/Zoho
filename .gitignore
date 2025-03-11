@@ -1,0 +1,61 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+*.egg-info/
+
+# Java
+*.class
+*.jar
+*.war
+target/
+.metadata
+.classpath
+.project
+.settings
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# IDEs
+.idea/
+*.iml
+
+# Log files
+*.log
+
+# Environment variables
+.env
+
+# Coverage reports
+coverage/
+*.cover
+
+# Build artifacts
+dist/
+build/
+*.egg
+
+# Other
+*.bak
+*.tmp
+*.swp
