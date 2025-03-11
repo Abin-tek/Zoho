@@ -21,6 +21,7 @@ target/
 .classpath
 .project
 .settings
+bin/
 
 # Visual Studio
 .vs/

@@ -1,5 +1,5 @@
 import java.util.Arrays;
-
+// hi
 public class Robber4 {
     public int minCapability(int[] nums, int k) {
         int low = Arrays.stream(nums).min().getAsInt();
