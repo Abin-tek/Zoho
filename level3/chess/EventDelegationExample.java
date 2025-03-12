@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EventDelegationExample {
     static  int id = 1;
@@ -12,12 +10,7 @@ public class EventDelegationExample {
         JLabel label = new JLabel("Count = " + count++);
 
 
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                label.setText("Count = " + count++);
-            }
-        });
+        button.addActionListener(e -> label.setText("Count = " + count++));
 
 
         frame.add(button);
