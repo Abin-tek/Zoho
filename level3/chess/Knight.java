@@ -1,6 +1,6 @@
-public class Knight {
+public class Knight extends Piece{
 
-    public static void main(String[] args) {
-        System.out.println("Knight");
+    public Knight(boolean white) {
+        super(white);
     }
 }
