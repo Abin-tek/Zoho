@@ -9,6 +9,12 @@ public class Spot {
         this.piece = piece;
     }
 
+    public Spot(int file, int rank) {
+        this.file = file;
+        this.rank = rank;
+        this.piece = null;
+    }
+
     public int getFile() {
         return file;
     }

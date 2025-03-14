@@ -1,10 +1,10 @@
 public abstract class Player {
     private boolean white;
-    private boolean robot;
+    private boolean human;
 
-    public Player(boolean white, boolean robot) {
+    public Player(boolean white, boolean human) {
         this.white = white;
-        this.robot = robot;
+        this.human = human;
     }
 
     public boolean makeMove(){

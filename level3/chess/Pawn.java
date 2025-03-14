@@ -2,7 +2,7 @@ public class Pawn extends Piece {
     private  boolean first_move;
 
     public Pawn(boolean white) {
-        super(white);
+        super(white, "P");
         first_move = true;
     }
 

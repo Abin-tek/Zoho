@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Game {
     private Board board;
     private Player[] players = new Player[2];
@@ -6,62 +8,42 @@ public class Game {
     private Spot start;
     private Spot end;
 
-    public Game(Player robot, Player human) {
-        this.players[0] = robot;
-        this.players[1] = human;
+    public Game(Player human, Player robot) {
+        this.players[0] = human;
+        this.players[1] = robot;
         this.current_player = human;
         this.status = Status.Active;
+        this.board = new Board();
     }
 
-    public Board getBoard() {
-        return board;
-    }
+    public void start() {
+        Scanner sc = new Scanner(System.in);
+        board.resetBoard();
+        board.printBoard();
 
-    public Player[] getPlayers() {
-        return players;
-    }
+        while (true) {
 
-    public Player getCurrent_player() {
-        return current_player;
+            String ip = sc.next();
+
+            if (ip.equals("exit")) break;
+
+            start = board.getBox(ip.charAt(0), ip.charAt(1));
+            ip = sc.next();
+            end = board.getBox(ip.charAt(0), ip.charAt(1));
+
+            if (start != null && end != null && board.playMove(start, end, current_player)) {
+                board.printBoard();
+                current_player = current_player.equals(players[0]) ? players[1] : players[0];
+            } else {
+                System.out.println("Invalid move");
+            }
+        }
+
+        status = Status.End;
+        System.out.println("Game over!");
     }
 
     public Status getStatus() {
         return status;
-    }
-
-    public Spot getStart() {
-        return start;
-    }
-
-    public Spot getEnd() {
-        return end;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public void setPlayers(Player[] players) {
-        this.players = players;
-    }
-
-    public void setCurrent_player(Player current_player) {
-        this.current_player = current_player;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public void setStart(Spot start) {
-        this.start = start;
-    }
-
-    public void setEnd(Spot end) {
-        this.end = end;
-    }
-
-    public void start(){
-
     }
 }

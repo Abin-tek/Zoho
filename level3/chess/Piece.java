@@ -1,8 +1,11 @@
 public abstract class Piece {
-    boolean white;
+    private boolean white;
+    private StringBuffer val;
 
-    public Piece(boolean white) {
+    public Piece(boolean white, String name) {
         this.white = white;
+        this.val = new StringBuffer();
+        setVal(name);
     }
 
     public boolean canMove() {
@@ -12,5 +15,15 @@ public abstract class Piece {
 
     public boolean isPathClear() {
         return false;
+    }
+
+
+    private void setVal(String name) {
+        val.append(white ? "W" : "B");
+        val.append(name);
+    }
+
+    public String getVal() {
+        return val.toString();
     }
 }
