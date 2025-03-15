@@ -1,5 +1,5 @@
 public class Board {
-    private Spot[][] grid;
+    private final Spot[][] grid;
 
     public Board() {
         grid = new Spot[8][8];
