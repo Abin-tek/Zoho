@@ -7,15 +7,16 @@ public abstract class Player {
         this.human = human;
     }
 
-    public boolean makeMove(){
-        return  false;
-    }
-
     public boolean isWhite() {
         return white;
     }
 
     public boolean isHuman() {
         return human;
+    }
+
+    public void makeMove(Spot start, Spot end) {
+        end.setPiece(start.getPiece());
+        start.setPiece(null);
     }
 }

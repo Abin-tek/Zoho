@@ -15,14 +15,14 @@ public class Board {
         grid[0][6] = new Spot('g', '8', new Knight(false));
         grid[0][7] = new Spot('h', '8', new Rook(false));
 
-        grid[7][0] = new Spot('a', '8', new Rook(true));
-        grid[7][1] = new Spot('b', '8', new Knight(true));
-        grid[7][2] = new Spot('c', '8', new Bishop(true));
-        grid[7][3] = new Spot('d', '8', new Queen(true));
-        grid[7][4] = new Spot('e', '8', new King(true));
-        grid[7][5] = new Spot('f', '8', new Bishop(true));
-        grid[7][6] = new Spot('g', '8', new Knight(true));
-        grid[7][7] = new Spot('h', '8', new Rook(true));
+        grid[7][0] = new Spot('a', '1', new Rook(true));
+        grid[7][1] = new Spot('b', '1', new Knight(true));
+        grid[7][2] = new Spot('c', '1', new Bishop(true));
+        grid[7][3] = new Spot('d', '1', new Queen(true));
+        grid[7][4] = new Spot('e', '1', new King(true));
+        grid[7][5] = new Spot('f', '1', new Bishop(true));
+        grid[7][6] = new Spot('g', '1', new Knight(true));
+        grid[7][7] = new Spot('h', '1', new Rook(true));
 
         for (int i = 0; i < 8; i++) {
             grid[1][i] = new Spot((char) ('a' + i), '7', new Pawn(false));
@@ -36,22 +36,25 @@ public class Board {
         }
     }
 
-    public Spot getBox(char file, char rank) {
+    public Spot getSpot(char file, char rank) {
+        if (!belongsToBoard(file, rank))
+            return null;
         return grid['8' - rank][file - 'a'];
+    }
+
+    private boolean belongsToBoard(char file, char rank) {
+        return file >= 'a' && file <= 'h' && rank >= '1' && rank <= '8';
     }
 
 
     public boolean playMove(Spot start, Spot end, Player currentPlayer) {
+        if (start.equals(end) || start.getPiece() == null || start.getPiece().isWhite() != currentPlayer.isWhite())
+            return false;
         if (start.getPiece().canMove(start, end, currentPlayer, this)) {
-            updateBoard(start, end);
+            currentPlayer.makeMove(start, end);
             return true;
         }
         return false;
-    }
-
-    private void updateBoard(Spot start, Spot end) {
-        end.setPiece(start.getPiece());
-        start.setPiece(null);
     }
 
     public void printBoard() {

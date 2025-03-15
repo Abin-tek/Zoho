@@ -1,31 +1,32 @@
 public class Pawn extends Piece {
     private boolean first_move;
-    private int step;
 
     public Pawn(boolean white) {
         super(white, "P");
-        first_move = true;
-        step = 1;
+        this.first_move = true;
     }
 
     @Override
     public boolean canMove(Spot start, Spot end, Player currentPlayer, Board board) {
+        char start_rank = start.getRank();
+        char start_file = start.getFile();
+        char end_rank = end.getRank();
+        char end_file = end.getFile();
+        int range = 1;
 
-        if (first_move) {
-            step = 2;
-            first_move = false;
-        } else {
-            step = 1;
+        if (this.first_move) {
+            range = 2;
         }
 
+        int dy = start_rank - end_rank;
+        dy *= currentPlayer.isWhite() ? -1 : 1;
+        int dx = Math.abs(start_file - end_file);
 
-        if (end.getFile() == start.getFile()) {
-            if (currentPlayer.isWhite() && start.getRank() - end.getRank() < -step)
-                return false;
-            else if (start.getRank() - end.getRank() > step)
+        if (end_file == start_file) {
+            if (dy < 0 || dy > range)
                 return false;
         } else {
-            if (Math.abs(start.getFile() - end.getFile()) != 1 || start.getRank() - end.getRank() == (currentPlayer.isWhite() ? 1 : -1))
+            if (dx != 1 || dy != 1)
                 return false;
         }
 
@@ -34,18 +35,21 @@ public class Pawn extends Piece {
 
     @Override
     public boolean isPathClear(Spot start, Spot end, Player currentPlayer, Board board) {
-        step = currentPlayer.isWhite() ? 1 : -1;
+        Piece target = end.getPiece();
 
-        for (char i = (char) (start.getRank() + step); i < end.getRank(); i += step) {
-            if (board.getBox(end.getFile(), i).getPiece() != null)
+        if (start.getFile() == end.getFile()) {
+            if (this.first_move) {
+                int midRank = (start.getRank() + end.getRank() + 1) / 2;
+                if ((board.getSpot(end.getFile(), (char) (midRank)).getPiece() != null))
+                    return false;
+            }
+
+            if (target != null)
                 return false;
-        }
+        } else if (target == null || target.isWhite() == currentPlayer.isWhite())
+            return false;
 
-        Piece target = board.getBox(end.getFile(), end.getRank()).getPiece();
-
-        if (start.getFile() != end.getFile())
-            return target != null && target.isWhite() != currentPlayer.isWhite();
-        else
-            return target == null;
+        this.first_move = false;
+        return true;
     }
 }

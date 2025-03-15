@@ -1,11 +1,13 @@
 public abstract class Piece {
     private final boolean white;
-    private StringBuffer val;
+    protected int step;
+    private final StringBuffer val;
 
     public Piece(boolean white, String name) {
         this.white = white;
         this.val = new StringBuffer();
         setVal(name);
+        step = 1;
     }
 
     public boolean isPathClear(Spot start, Spot end, Player currentPlayer, Board board) {
