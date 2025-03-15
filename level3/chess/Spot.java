@@ -1,38 +1,30 @@
 public class Spot {
-    private int file;
-    private int rank;
+    private char file;
+    private char rank;
     private Piece piece;
 
-    public Spot(int file, int rank, Piece piece) {
+    public Spot(char file, char rank, Piece piece) {
         this.file = file;
         this.rank = rank;
         this.piece = piece;
     }
 
-    public Spot(int file, int rank) {
+    public Spot(char file, char rank) {
         this.file = file;
         this.rank = rank;
         this.piece = null;
     }
 
-    public int getFile() {
+    public char getFile() {
         return file;
     }
 
-    public int getRank() {
+    public char getRank() {
         return rank;
     }
 
     public Piece getPiece() {
         return piece;
-    }
-
-    public void setFile(int file) {
-        this.file = file;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
     }
 
     public void setPiece(Piece piece) {

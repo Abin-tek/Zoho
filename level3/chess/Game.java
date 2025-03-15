@@ -22,13 +22,13 @@ public class Game {
         board.printBoard();
 
         while (true) {
-
-            String ip = sc.next();
+            System.out.print("\n" + (current_player.isWhite() ? "White" : "Black") + "'s Move : ");
+            String ip = sc.next().toLowerCase();
 
             if (ip.equals("exit")) break;
 
             start = board.getBox(ip.charAt(0), ip.charAt(1));
-            ip = sc.next();
+            ip = sc.next().toLowerCase();
             end = board.getBox(ip.charAt(0), ip.charAt(1));
 
             if (start != null && end != null && board.playMove(start, end, current_player)) {

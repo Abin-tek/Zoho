@@ -1,5 +1,5 @@
 public abstract class Piece {
-    private boolean white;
+    private final boolean white;
     private StringBuffer val;
 
     public Piece(boolean white, String name) {
@@ -8,12 +8,7 @@ public abstract class Piece {
         setVal(name);
     }
 
-    public boolean canMove() {
-
-        return false;
-    }
-
-    public boolean isPathClear() {
+    public boolean isPathClear(Spot start, Spot end, Player currentPlayer, Board board) {
         return false;
     }
 
@@ -25,5 +20,13 @@ public abstract class Piece {
 
     public String getVal() {
         return val.toString();
+    }
+
+    public boolean canMove(Spot start, Spot end, Player currentPlayer, Board board) {
+        return  false;
+    }
+
+    public boolean isWhite() {
+        return white;
     }
 }

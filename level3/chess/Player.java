@@ -1,6 +1,6 @@
 public abstract class Player {
-    private boolean white;
-    private boolean human;
+    private final boolean white;
+    private final boolean human;
 
     public Player(boolean white, boolean human) {
         this.white = white;
@@ -9,5 +9,13 @@ public abstract class Player {
 
     public boolean makeMove(){
         return  false;
+    }
+
+    public boolean isWhite() {
+        return white;
+    }
+
+    public boolean isHuman() {
+        return human;
     }
 }
