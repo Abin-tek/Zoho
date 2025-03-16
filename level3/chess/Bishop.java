@@ -19,10 +19,10 @@ public class Bishop extends Piece {
         dx = (start_file < end_file) ? 1 : -1;
         dy = (start_rank < end_rank) ? 1 : -1;
 
-        return isPathClear(dx, dy, start_file, end_file, start_rank, end_rank, currentPlayer, board, end.getPiece());
+        return isPathClear(dx, dy, start_file, end_file, start_rank, currentPlayer, board, end.getPiece());
     }
 
-    public boolean isPathClear(int dx, int dy, char start_file, char end_file, char start_rank, char end_rank, Player currentPlayer, Board board, Piece target) {
+    public boolean isPathClear(int dx, int dy, char start_file, char end_file, char start_rank, Player currentPlayer, Board board, Piece target) {
 
         for (int i = (start_file + dx), j = (start_rank + dy); i != end_file; i += dx, j += dy) {
             Piece current_piece = board.getSpot((char) i, (char) j).getPiece();
