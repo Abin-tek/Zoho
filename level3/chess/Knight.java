@@ -11,14 +11,12 @@ public class Knight extends Piece {
 
 
         if (dx == 1 && dy == 2 || dx == 2 && dy == 1)
-            return isPathClear(start, end, currentPlayer, board);
+            return isPathClear(end.getPiece(), currentPlayer);
 
         return  false;
     }
 
-    @Override
-    public boolean isPathClear(Spot start, Spot end, Player currentPlayer, Board board) {
-        Piece target = end.getPiece();
+    public boolean isPathClear(Piece target, Player currentPlayer) {
         return target == null || target.isWhite() != currentPlayer.isWhite();
     }
 }

@@ -30,17 +30,14 @@ public class Pawn extends Piece {
                 return false;
         }
 
-        return isPathClear(start, end, currentPlayer, board);
+        return isPathClear(start_file, end_file, start_rank, end_rank, currentPlayer, board, end.getPiece());
     }
 
-    @Override
-    public boolean isPathClear(Spot start, Spot end, Player currentPlayer, Board board) {
-        Piece target = end.getPiece();
-
-        if (start.getFile() == end.getFile()) {
+    public boolean isPathClear(char start_file, char end_file, char start_rank, char end_rank, Player currentPlayer, Board board, Piece target) {
+        if (start_file == end_file) {
             if (this.first_move) {
-                int midRank = (start.getRank() + end.getRank() + 1) / 2;
-                if ((board.getSpot(end.getFile(), (char) (midRank)).getPiece() != null))
+                int midRank = (start_rank + end_rank + 1) / 2;
+                if ((board.getSpot(end_file, (char) (midRank)).getPiece() != null))
                     return false;
             }
 

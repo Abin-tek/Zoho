@@ -10,11 +10,6 @@ public abstract class Piece {
         step = 1;
     }
 
-    public boolean isPathClear(Spot start, Spot end, Player currentPlayer, Board board) {
-        return false;
-    }
-
-
     private void setVal(String name) {
         val.append(white ? "W" : "B");
         val.append(name);
@@ -24,11 +19,13 @@ public abstract class Piece {
         return val.toString();
     }
 
-    public boolean canMove(Spot start, Spot end, Player currentPlayer, Board board) {
-        return  false;
-    }
-
     public boolean isWhite() {
         return white;
     }
+
+
+    public boolean canMove(Spot start, Spot end, Player currentPlayer, Board board) {
+        return false;
+    }
+
 }

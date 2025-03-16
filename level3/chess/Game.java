@@ -21,13 +21,15 @@ public class Game {
 
         while (true) {
             System.out.print("\n" + (current_player.isHuman() ? "Human" : "Robot") + "'s Move : ");
-            String ip = sc.next().toLowerCase();
+            String ip = sc.nextLine().toLowerCase();
 
             if (ip.equals("exit")) break;
 
-            Spot start = board.getSpot(ip.charAt(0), ip.charAt(1));
-            ip = sc.next().toLowerCase();
-            Spot end = board.getSpot(ip.charAt(0), ip.charAt(1));
+            Spot[] move = getMoves(ip);
+            if (move == null) continue;
+
+            Spot start = move[0];
+            Spot end = move[1];
 
             if (start != null && end != null && board.playMove(start, end, current_player)) {
                 board.printBoard();
@@ -39,6 +41,13 @@ public class Game {
 
         status = Status.End;
         System.out.println("Game over!");
+    }
+
+    private Spot[] getMoves(String ip) {
+        if (ip.length() != 5)
+            return null;
+
+        return new Spot[]{board.getSpot(ip.charAt(0), ip.charAt(1)), board.getSpot(ip.charAt(3), ip.charAt(4))};
     }
 
     public Status getStatus() {
