@@ -46,11 +46,16 @@ public class Board {
         return file >= 'a' && file <= 'h' && rank >= '1' && rank <= '8';
     }
 
-
     public boolean playMove(Spot start, Spot end, Player currentPlayer) {
-        if (start.equals(end) || start.getPiece() == null || start.getPiece().isWhite() != currentPlayer.isWhite())
+        Piece start_piece = start.getPiece();
+        Piece end_piece = end.getPiece();
+
+        if (start.equals(end) || start_piece == null || start_piece.isWhite() != currentPlayer.isWhite())
             return false;
-        if (start.getPiece().canMove(start, end, currentPlayer, this)) {
+        if (end_piece != null && end_piece.isWhite() == currentPlayer.isWhite())
+            return  false;
+
+        if (start_piece.canMove(start, end, this)) {
             currentPlayer.makeMove(start, end);
             return true;
         }

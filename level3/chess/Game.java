@@ -20,7 +20,7 @@ public class Game {
         board.printBoard();
 
         while (true) {
-            System.out.print("\n" + (current_player.isHuman() ? "Human" : "Robot") + "'s Move : ");
+            System.out.print("\n" + (current_player.isWhite() ? "White" : "Black") + "'s turn : ");
             String ip = sc.nextLine().toLowerCase();
 
             if (ip.equals("exit")) break;
