@@ -1,7 +1,7 @@
 public abstract class Player {
     private final boolean white;
 
-    public Player(boolean white, boolean human) {
+    public Player(boolean white) {
         this.white = white;
     }
 
