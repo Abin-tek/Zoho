@@ -27,13 +27,13 @@ public class Rook extends Piece {
 
     public boolean isPathClear(char start_file, char end_file, char start_rank, char end_rank, Board board) {
         if (start_file == end_file) {
-            for (int i = (start_rank - 1); i < end_rank; i += step) {
+            for (int i = (start_rank + step); i != end_rank; i += step) {
                 Piece current_piece = board.getSpot(start_file, (char) i).getPiece();
                 if (current_piece != null)
                     return false;
             }
         } else {
-            for (int i = (start_file + 1); i < end_file; i += step) {
+            for (int i = (start_file + step); i != end_file; i += step) {
                 Piece current_piece = board.getSpot((char) i, start_rank).getPiece();
                 if (current_piece != null)
                     return false;

@@ -18,15 +18,16 @@ public class Pawn extends Piece {
             range = 2;
         }
 
-        int dy = start_rank - end_rank;
-        dy *= start.getPiece().isWhite() ? -1 : 1;
+        step = start.getPiece().isWhite() ? 1 : -1;
+        int dy = end_rank - start_rank;
+        dy *= step;
         int dx = Math.abs(start_file - end_file);
 
         if (end_file == start_file) {
             if (dy < 0 || dy > range)
                 return false;
         } else {
-            if (dx != 1 || dy != 1)
+            if (end.getPiece() == null ||  dx != 1 || dy != 1)
                 return false;
         }
 
