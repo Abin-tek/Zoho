@@ -1,19 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Board extends JFrame {
     private final Spot[][] grid;
     public static final int SIZE = 8;
-    private static final int BOARD_SIZE = 1000;
-    private static final int PIECE_SIZE = 80;
-    private static final Color LIGHT_COLOR = new Color(222, 184, 135);
-    private static final Color DARK_COLOR = new Color(139, 69, 19);
-    private final Map<String, ImageIcon> pieceImages = new HashMap<>();
+    private static final int BOARD_SIZE = 800;
     Game game;
-    private Spot startSquare;
-    private Spot endSquare;
     JPanel boardPanel = new JPanel(new GridLayout(SIZE, SIZE)) {
         @Override
         public Dimension getPreferredSize() {
@@ -29,11 +21,12 @@ public class Board extends JFrame {
         getContentPane().setBackground(Color.LIGHT_GRAY);
         this.grid = new Spot[SIZE][SIZE];
         this.game = game;
-        this.startSquare = null;
-        this.endSquare = null;
         resetBoard();
         add(boardPanel, new GridBagConstraints());
         setVisible(true);
+
+        JButton exit = new JButton("Exit");
+
     }
 
     public void resetBoard() {
@@ -99,18 +92,6 @@ public class Board extends JFrame {
         return false;
     }
 
-    public Spot getStartSquare() {
-        return startSquare;
-    }
-
-    public void setStartSquare(Spot startSquare) {
-        this.startSquare = startSquare;
-    }
-
-    public Spot getEndSquare() {
-        return endSquare;
-    }
-
     public void printBoard() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -120,13 +101,5 @@ public class Board extends JFrame {
             System.out.println();
         }
 
-    }
-
-    public void refresh() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                boardPanel.add(grid[i][j]);
-            }
-        }
     }
 }

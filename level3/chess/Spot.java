@@ -4,8 +4,9 @@ import java.awt.*;
 public class Spot extends JButton {
     private static final Color LIGHT_COLOR = new Color(222, 184, 135);
     private static final Color DARK_COLOR = new Color(139, 69, 19);
-    private char file;
-    private char rank;
+    private static final int PIECE_SIZE = 90;
+    private final char file;
+    private final char rank;
     private Piece piece;
     private ImageIcon imageIcon;
     Game game;
@@ -15,7 +16,7 @@ public class Spot extends JButton {
         this.file = file;
         this.rank = rank;
         this.piece = piece;
-        this.setIcon(new ImageIcon("icons/" + piece.getVal() + ".png"));
+        this.setIcon(resizeImage("icons/" + piece.getVal() + ".png"));
         this.setOpaque(true);
         this.setBorderPainted(false);
         this.setBackground(((file + rank) & 1) == 0 ? LIGHT_COLOR : DARK_COLOR);
@@ -37,7 +38,7 @@ public class Spot extends JButton {
 
     }
 
-    public Spot clone(){
+    public Spot clone() {
         return new Spot(file, rank, piece, game, board);
     }
 
@@ -57,5 +58,10 @@ public class Spot extends JButton {
         this.piece = piece;
     }
 
+    private ImageIcon resizeImage(String path) {
+        ImageIcon icon = new ImageIcon(path);
+        Image image = icon.getImage().getScaledInstance(PIECE_SIZE, PIECE_SIZE, Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
+    }
 
 }

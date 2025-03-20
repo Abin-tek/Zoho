@@ -11,6 +11,8 @@ public abstract class Player {
 
     public void makeMove(Spot start, Spot end) {
         end.setPiece(start.getPiece());
+        end.setIcon(start.getIcon());
         start.setPiece(null);
+        start.setIcon(null);
     }
 }

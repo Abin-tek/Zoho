@@ -37,7 +37,6 @@ public class Game {
 
         if (start != null && end != null && board.playMove(start, end, current_player)) {
             board.printBoard();
-            board.refresh();
             current_player = current_player.equals(players[0]) ? players[1] : players[0];
         } else {
             System.out.println("Invalid move");
