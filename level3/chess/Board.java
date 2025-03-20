@@ -1,37 +1,74 @@
-public class Board {
-    private final Spot[][] grid;
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
-    public Board() {
-        grid = new Spot[8][8];
+public class Board extends JFrame {
+    private final Spot[][] grid;
+    public static final int SIZE = 8;
+    private static final int BOARD_SIZE = 1000;
+    private static final int PIECE_SIZE = 80;
+    private static final Color LIGHT_COLOR = new Color(222, 184, 135);
+    private static final Color DARK_COLOR = new Color(139, 69, 19);
+    private final Map<String, ImageIcon> pieceImages = new HashMap<>();
+    Game game;
+    private Spot startSquare;
+    private Spot endSquare;
+    JPanel boardPanel = new JPanel(new GridLayout(SIZE, SIZE)) {
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(BOARD_SIZE, BOARD_SIZE);
+        }
+    };
+
+    public Board(Game game) {
+        setTitle("Chess");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new GridBagLayout());
+        getContentPane().setBackground(Color.LIGHT_GRAY);
+        this.grid = new Spot[SIZE][SIZE];
+        this.game = game;
+        this.startSquare = null;
+        this.endSquare = null;
+        resetBoard();
+        add(boardPanel, new GridBagConstraints());
+        setVisible(true);
     }
 
     public void resetBoard() {
-        grid[0][0] = new Spot('a', '8', new Rook(false));
-        grid[0][1] = new Spot('b', '8', new Knight(false));
-        grid[0][2] = new Spot('c', '8', new Bishop(false));
-        grid[0][3] = new Spot('d', '8', new Queen(false));
-        grid[0][4] = new Spot('e', '8', new King(false));
-        grid[0][5] = new Spot('f', '8', new Bishop(false));
-        grid[0][6] = new Spot('g', '8', new Knight(false));
-        grid[0][7] = new Spot('h', '8', new Rook(false));
+        grid[0][0] = new Spot('a', '8', new Rook(false), game, this);
+        grid[0][1] = new Spot('b', '8', new Knight(false), game, this);
+        grid[0][2] = new Spot('c', '8', new Bishop(false), game, this);
+        grid[0][3] = new Spot('d', '8', new Queen(false), game, this);
+        grid[0][4] = new Spot('e', '8', new King(false), game, this);
+        grid[0][5] = new Spot('f', '8', new Bishop(false), game, this);
+        grid[0][6] = new Spot('g', '8', new Knight(false), game, this);
+        grid[0][7] = new Spot('h', '8', new Rook(false), game, this);
 
-        grid[7][0] = new Spot('a', '1', new Rook(true));
-        grid[7][1] = new Spot('b', '1', new Knight(true));
-        grid[7][2] = new Spot('c', '1', new Bishop(true));
-        grid[7][3] = new Spot('d', '1', new Queen(true));
-        grid[7][4] = new Spot('e', '1', new King(true));
-        grid[7][5] = new Spot('f', '1', new Bishop(true));
-        grid[7][6] = new Spot('g', '1', new Knight(true));
-        grid[7][7] = new Spot('h', '1', new Rook(true));
+        grid[7][0] = new Spot('a', '1', new Rook(true), game, this);
+        grid[7][1] = new Spot('b', '1', new Knight(true), game, this);
+        grid[7][2] = new Spot('c', '1', new Bishop(true), game, this);
+        grid[7][3] = new Spot('d', '1', new Queen(true), game, this);
+        grid[7][4] = new Spot('e', '1', new King(true), game, this);
+        grid[7][5] = new Spot('f', '1', new Bishop(true), game, this);
+        grid[7][6] = new Spot('g', '1', new Knight(true), game, this);
+        grid[7][7] = new Spot('h', '1', new Rook(true), game, this);
 
-        for (int i = 0; i < 8; i++) {
-            grid[1][i] = new Spot((char) ('a' + i), '7', new Pawn(false));
-            grid[6][i] = new Spot((char) ('a' + i), '2', new Pawn(true));
+        for (int i = 0; i < SIZE; i++) {
+            grid[1][i] = new Spot((char) ('a' + i), '7', new Pawn(false), game, this);
+            grid[6][i] = new Spot((char) ('a' + i), '2', new Pawn(true), game, this);
         }
 
         for (int i = 2; i < 6; i++) {
-            for (int j = 0; j < 8; j++) {
-                grid[i][j] = new Spot((char) ('a' + j), (char) ('8' - i));
+            for (int j = 0; j < SIZE; j++) {
+                grid[i][j] = new Spot((char) ('a' + j), (char) ('8' - i), game, this);
+            }
+        }
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                boardPanel.add(grid[i][j]);
             }
         }
     }
@@ -53,7 +90,7 @@ public class Board {
         if (start.equals(end) || start_piece == null || start_piece.isWhite() != currentPlayer.isWhite())
             return false;
         if (end_piece != null && end_piece.isWhite() == currentPlayer.isWhite())
-            return  false;
+            return false;
 
         if (start_piece.canMove(start, end, this)) {
             currentPlayer.makeMove(start, end);
@@ -62,14 +99,34 @@ public class Board {
         return false;
     }
 
+    public Spot getStartSquare() {
+        return startSquare;
+    }
+
+    public void setStartSquare(Spot startSquare) {
+        this.startSquare = startSquare;
+    }
+
+    public Spot getEndSquare() {
+        return endSquare;
+    }
+
     public void printBoard() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Piece box = grid[i][j].getPiece();
-                System.out.print((box != null ? box.getVal() : "--") + " ");
+                Piece piece = grid[i][j].getPiece();
+                System.out.print((piece != null ? piece.getVal() : "--") + " ");
             }
             System.out.println();
         }
 
+    }
+
+    public void refresh() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                boardPanel.add(grid[i][j]);
+            }
+        }
     }
 }

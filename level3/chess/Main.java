@@ -9,7 +9,6 @@ public class Main {
         Game game = new Game(human, robot);
 
         System.out.println(game.getStatus());
-        SwingUtilities.invokeLater(ChessBoard::new);
         game.start();
         System.out.println(game.getStatus());
     }

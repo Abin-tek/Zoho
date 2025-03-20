@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.Scanner;
 
 public class Game {
@@ -11,11 +12,10 @@ public class Game {
         this.players[1] = robot;
         this.current_player = human;
         this.status = Status.Active;
-        this.board = new Board();
+        this.board = new Board(this);
     }
 
     public void start() {
-        board.resetBoard();
         board.printBoard();
     }
 
@@ -37,6 +37,7 @@ public class Game {
 
         if (start != null && end != null && board.playMove(start, end, current_player)) {
             board.printBoard();
+            board.refresh();
             current_player = current_player.equals(players[0]) ? players[1] : players[0];
         } else {
             System.out.println("Invalid move");
