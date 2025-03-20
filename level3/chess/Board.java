@@ -24,9 +24,6 @@ public class Board extends JFrame {
         resetBoard();
         add(boardPanel, new GridBagConstraints());
         setVisible(true);
-
-        JButton exit = new JButton("Exit");
-
     }
 
     public void resetBoard() {

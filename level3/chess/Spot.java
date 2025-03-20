@@ -8,7 +8,6 @@ public class Spot extends JButton {
     private final char file;
     private final char rank;
     private Piece piece;
-    private ImageIcon imageIcon;
     Game game;
     Board board;
 
@@ -36,10 +35,6 @@ public class Spot extends JButton {
         this.board = board;
         this.addActionListener(new SquareClickListener(file, rank, this.game, this.board));
 
-    }
-
-    public Spot clone() {
-        return new Spot(file, rank, piece, game, board);
     }
 
     public char getFile() {
