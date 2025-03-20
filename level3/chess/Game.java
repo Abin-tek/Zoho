@@ -15,32 +15,32 @@ public class Game {
     }
 
     public void start() {
-        Scanner sc = new Scanner(System.in);
         board.resetBoard();
         board.printBoard();
+    }
 
-        while (true) {
-            System.out.print("\n" + (current_player.isWhite() ? "White" : "Black") + "'s turn : ");
-            String ip = sc.nextLine().toLowerCase();
-
-            if (ip.equals("exit")) break;
-
-            Spot[] move = getMoves(ip);
-            if (move == null) continue;
-
-            Spot start = move[0];
-            Spot end = move[1];
-
-            if (start != null && end != null && board.playMove(start, end, current_player)) {
-                board.printBoard();
-                current_player = current_player.equals(players[0]) ? players[1] : players[0];
-            } else {
-                System.out.println("Invalid move");
-            }
+    public void processMove(String ip) {
+        if (ip.equals("exit")) {
+            status = Status.End;
+            System.out.println("Game over!");
+            return;
         }
 
-        status = Status.End;
-        System.out.println("Game over!");
+        Spot[] move = getMoves(ip);
+        if (move == null) {
+            System.out.println("Invalid input format");
+            return;
+        }
+
+        Spot start = move[0];
+        Spot end = move[1];
+
+        if (start != null && end != null && board.playMove(start, end, current_player)) {
+            board.printBoard();
+            current_player = current_player.equals(players[0]) ? players[1] : players[0];
+        } else {
+            System.out.println("Invalid move");
+        }
     }
 
     private Spot[] getMoves(String ip) {
