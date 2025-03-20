@@ -37,7 +37,7 @@ public class Pawn extends Piece {
     public boolean isPathClear(char start_file, char end_file, char start_rank, char end_rank, Board board) {
         if (start_file == end_file) {
             if (this.first_move) {
-                int midRank = (start_rank + end_rank + 1) / 2;
+                int midRank = (start_rank + end_rank + step) / 2;
                 if ((board.getSpot(end_file, (char) (midRank)).getPiece() != null))
                     return false;
             }
