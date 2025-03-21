@@ -1,64 +1,54 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Board extends JFrame {
+public class Board extends JPanel {
     private final Spot[][] grid;
     public static final int SIZE = 8;
     private static final int BOARD_SIZE = 800;
     Game game;
-    JPanel boardPanel = new JPanel(new GridLayout(SIZE, SIZE)) {
-        @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(BOARD_SIZE, BOARD_SIZE);
-        }
-    };
 
     public Board(Game game) {
-        setTitle("Chess");
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new GridBagLayout());
-        getContentPane().setBackground(Color.LIGHT_GRAY);
         this.grid = new Spot[SIZE][SIZE];
         this.game = game;
+        setLayout(new GridLayout(SIZE, SIZE));
+        setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
+        setLocation(50,50);
         resetBoard();
-        add(boardPanel, new GridBagConstraints());
-        setVisible(true);
     }
 
     public void resetBoard() {
-        grid[0][0] = new Spot('a', '8', new Rook(false), game, this);
-        grid[0][1] = new Spot('b', '8', new Knight(false), game, this);
-        grid[0][2] = new Spot('c', '8', new Bishop(false), game, this);
-        grid[0][3] = new Spot('d', '8', new Queen(false), game, this);
-        grid[0][4] = new Spot('e', '8', new King(false), game, this);
-        grid[0][5] = new Spot('f', '8', new Bishop(false), game, this);
-        grid[0][6] = new Spot('g', '8', new Knight(false), game, this);
-        grid[0][7] = new Spot('h', '8', new Rook(false), game, this);
+        grid[0][0] = new Spot('a', '8', new Rook(false), this);
+        grid[0][1] = new Spot('b', '8', new Knight(false), this);
+        grid[0][2] = new Spot('c', '8', new Bishop(false), this);
+        grid[0][3] = new Spot('d', '8', new Queen(false), this);
+        grid[0][4] = new Spot('e', '8', new King(false), this);
+        grid[0][5] = new Spot('f', '8', new Bishop(false), this);
+        grid[0][6] = new Spot('g', '8', new Knight(false), this);
+        grid[0][7] = new Spot('h', '8', new Rook(false), this);
 
-        grid[7][0] = new Spot('a', '1', new Rook(true), game, this);
-        grid[7][1] = new Spot('b', '1', new Knight(true), game, this);
-        grid[7][2] = new Spot('c', '1', new Bishop(true), game, this);
-        grid[7][3] = new Spot('d', '1', new Queen(true), game, this);
-        grid[7][4] = new Spot('e', '1', new King(true), game, this);
-        grid[7][5] = new Spot('f', '1', new Bishop(true), game, this);
-        grid[7][6] = new Spot('g', '1', new Knight(true), game, this);
-        grid[7][7] = new Spot('h', '1', new Rook(true), game, this);
+        grid[7][0] = new Spot('a', '1', new Rook(true), this);
+        grid[7][1] = new Spot('b', '1', new Knight(true), this);
+        grid[7][2] = new Spot('c', '1', new Bishop(true), this);
+        grid[7][3] = new Spot('d', '1', new Queen(true), this);
+        grid[7][4] = new Spot('e', '1', new King(true), this);
+        grid[7][5] = new Spot('f', '1', new Bishop(true), this);
+        grid[7][6] = new Spot('g', '1', new Knight(true), this);
+        grid[7][7] = new Spot('h', '1', new Rook(true), this);
 
         for (int i = 0; i < SIZE; i++) {
-            grid[1][i] = new Spot((char) ('a' + i), '7', new Pawn(false), game, this);
-            grid[6][i] = new Spot((char) ('a' + i), '2', new Pawn(true), game, this);
+            grid[1][i] = new Spot((char) ('a' + i), '7', new Pawn(false), this);
+            grid[6][i] = new Spot((char) ('a' + i), '2', new Pawn(true), this);
         }
 
         for (int i = 2; i < 6; i++) {
             for (int j = 0; j < SIZE; j++) {
-                grid[i][j] = new Spot((char) ('a' + j), (char) ('8' - i), game, this);
+                grid[i][j] = new Spot((char) ('a' + j), (char) ('8' - i), null, this);
             }
         }
 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                boardPanel.add(grid[i][j]);
+                this.add(grid[i][j]);
             }
         }
     }
@@ -71,6 +61,10 @@ public class Board extends JFrame {
 
     private boolean belongsToBoard(char file, char rank) {
         return file >= 'a' && file <= 'h' && rank >= '1' && rank <= '8';
+    }
+
+    protected void passMove(String ip) {
+        game.processMove(ip);
     }
 
     public boolean playMove(Spot start, Spot end, Player currentPlayer) {
@@ -97,6 +91,6 @@ public class Board extends JFrame {
             }
             System.out.println();
         }
-
+        System.out.println();
     }
 }

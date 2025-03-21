@@ -1,5 +1,5 @@
 public class Human extends Player {
     public Human(boolean white) {
-        super(white);
+        super(white, "White");
     }
 }

@@ -1,6 +1,8 @@
+import javax.swing.*;
+import java.awt.*;
 
-
-public class Game {
+public class Game extends JFrame {
+    private static final int TOP_BAR_SIZE = 38;
     private final Board board;
     private final Player[] players = new Player[2];
     private Player current_player;
@@ -12,9 +14,19 @@ public class Game {
         this.current_player = human;
         this.status = Status.Active;
         this.board = new Board(this);
+
+        setTitle("Chess");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new GridBagLayout());
+        getContentPane().setBackground(Color.LIGHT_GRAY);
+        add(board, new GridBagConstraints());
+        setVisible(true);
+        setMinimumSize(new Dimension(800, 800 + TOP_BAR_SIZE));
     }
 
     public void start() {
+        System.out.println(this.getStatus());
         board.printBoard();
     }
 
@@ -25,9 +37,10 @@ public class Game {
             return;
         }
 
+        System.out.println(current_player.getName() + "'s turn : " + ip);
         Spot[] move = getMoves(ip);
         if (move == null) {
-            System.out.println("Invalid input format");
+            System.out.println("Invalid input format!\n");
             return;
         }
 
@@ -38,7 +51,7 @@ public class Game {
             board.printBoard();
             current_player = current_player.equals(players[0]) ? players[1] : players[0];
         } else {
-            System.out.println("Invalid move");
+            System.out.println("Invalid move!\n");
         }
     }
 

@@ -7,7 +7,7 @@ public abstract class Piece {
         this.white = white;
         this.val = new StringBuffer();
         setVal(name);
-        step = 1;
+        this.step = 1;
     }
 
     private void setVal(String name) {

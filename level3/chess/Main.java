@@ -1,5 +1,3 @@
-import javax.swing.*;
-
 public class Main {
 
 
@@ -7,10 +5,7 @@ public class Main {
         Robot robot = new Robot(false);
         Human human = new Human(true);
         Game game = new Game(human, robot);
-
-        System.out.println(game.getStatus());
         game.start();
-        System.out.println(game.getStatus());
     }
 
 }
