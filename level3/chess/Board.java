@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Board extends JPanel {
+    private static final Color BEZEL_COLOR = new Color(66, 66, 66);
     private final Spot[][] grid;
     public static final int SIZE = 8;
     private static final int BOARD_SIZE = 800;
@@ -12,7 +13,7 @@ public class Board extends JPanel {
         this.game = game;
         setLayout(new GridLayout(SIZE, SIZE));
         setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
-        setLocation(50,50);
+        setBorder(BorderFactory.createLineBorder(BEZEL_COLOR, 10));
         resetBoard();
     }
 

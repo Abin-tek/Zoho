@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public class Spot extends JButton implements ActionListener {
     private static final Color LIGHT_COLOR = new Color(222, 184, 135);
     private static final Color DARK_COLOR = new Color(139, 69, 19);
-    private static final Color SELECTED_COLOR = new Color(180, 130, 90);
+    private static final Color SELECTED_COLOR = new Color(255, 115, 0, 255);
     private static final int PIECE_SIZE = 90;
     private final char file;
     private final char rank;
@@ -25,6 +25,7 @@ public class Spot extends JButton implements ActionListener {
         setBorderPainted(false);
         setBackgroundColor(this);
         addActionListener(this);
+        setFocusable(false);
     }
 
     private void setBackgroundColor(Spot spot) {
