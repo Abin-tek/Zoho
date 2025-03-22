@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JFrame {
+    private static final Color BG_COLOR = new Color(117, 117, 117);
     private static final int TOP_BAR_SIZE = 38;
     private final Board board;
     private final Player[] players = new Player[2];
@@ -15,11 +16,11 @@ public class Game extends JFrame {
         this.status = Status.Active;
         this.board = new Board(this);
 
-        setTitle("Chess");
+        setTitle("சதுரங்க வேட்டை");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
-        getContentPane().setBackground(Color.LIGHT_GRAY);
+        getContentPane().setBackground(BG_COLOR);
         add(board, new GridBagConstraints());
         setVisible(true);
         setMinimumSize(new Dimension(800, 800 + TOP_BAR_SIZE));
