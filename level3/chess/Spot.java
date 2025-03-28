@@ -17,7 +17,7 @@ public class Spot extends JButton {
         this.rank = rank;
         this.piece = piece;
         if (piece != null)
-            setIcon(resizeImage("/assets/icons/3d" + piece.getVal() + "3d.png"));
+            setIcon(resizeImage("assets/icons/3d/" + piece.getVal() + "3d.png"));
         setOpaque(true);
         setBorderPainted(false);
         setBackgroundColor();
