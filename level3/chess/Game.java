@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JFrame {
+    private static final int BOARD_SIZE = 800;
     private static final Color BG_COLOR = new Color(117, 117, 117);
     private static final int TOP_BAR_SIZE = 38;
     private final Board board;
@@ -23,7 +24,7 @@ public class Game extends JFrame {
         getContentPane().setBackground(BG_COLOR);
         add(board, new GridBagConstraints());
         setVisible(true);
-        setMinimumSize(new Dimension(800, 800 + TOP_BAR_SIZE));
+        setMinimumSize(new Dimension(BOARD_SIZE, BOARD_SIZE + TOP_BAR_SIZE));
     }
 
     public void start() {
