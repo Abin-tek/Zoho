@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JFrame {
-    private static final int BOARD_SIZE = 800;
+    private static final int BOARD_SIZE = 690;
     private static final Color BG_COLOR = new Color(117, 117, 117);
     private static final int TOP_BAR_SIZE = 38;
     private final Board board;

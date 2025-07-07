@@ -5,7 +5,7 @@ public class Board extends JPanel {
     private static final Color BEZEL_COLOR = new Color(48, 46, 42);
     private final Spot[][] grid;
     public static final int SIZE = 8;
-    private static final int BOARD_SIZE = 800;
+    private static final int BOARD_SIZE = 690;
     private static Spot start_square = null;
     //    private static final Color SELECTED_COLOR = new Color(255, 115, 0, 255);
     private static final Color SELECTED_COLOR_GREEN = new Color(178, 224, 104, 128);
