@@ -2,9 +2,12 @@ public abstract class Player {
     private final boolean white;
     private final String name;
 
-    public Player(boolean white, String name) {
+    public Player(boolean white) {
         this.white = white;
-        this.name = name;
+        if (white)
+            name = "White";
+        else
+            name = "Black";
     }
 
     public boolean isWhite() {

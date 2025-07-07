@@ -1,5 +1,5 @@
 public class Robot extends Player {
     public Robot(boolean white) {
-        super(white, "Black");
+        super(white);
     }
 }
