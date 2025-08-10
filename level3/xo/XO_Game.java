@@ -1,35 +1,52 @@
 import java.util.Scanner;
 
 public class XO_Game {
-    private char[][] board;
-    private int grid, move, row, col;
+    Board board;
+    private final int grid;
+    private int moveCount;
+    private int num;
     private char curr_player;
     private boolean win;
+    private Scanner sc;
 
-    XO_Game(int given_grid, char first_player) {
-        grid = given_grid;
-        move = 0;
-        row = 0;
-        col = 0;
-        curr_player = first_player != 'X' && first_player != 'O' ? 'X' : first_player;
+    XO_Game() {
+        sc = new Scanner(System.in);
+        System.out.print("Enter grid size and first player: ");
+        grid = getGridSize();
+        moveCount = 0;
+        curr_player = getFirstPlayer();
         win = false;
-        board = new char[grid][grid];
+        board = new Board(given_grid);
+    }
+
+    private char getFirstPlayer() {
+        char name = sc.next().toUpperCase().charAt(0);
+        
+        return 'X';
+    }
+
+    private int getGridSize() {
+        int size = sc.nextInt();
+        if (size >= 3 && size <= 9)
+            return size;
+        return 3;
     }
 
     public void start() {
-        Scanner sc = new Scanner(System.in);
-        while (!win && move < grid * grid) {
-            printBoard();
-            System.out.printf("Player %c, Enter the move (x, y): ", curr_player);
-            row = sc.nextInt();
-            col = sc.nextInt();
+        while (!win && moveCount < grid * grid) {
+            board.printBoard();
+            System.out.printf("Player %c, Enter the position (1 to 9): ", curr_player);
+            num = sc.nextInt();
 
-            if (isValidMove()) {
-                move++;
+            int[] coordinates = Position.calculate(num, grid);
+
+            if (board.isValidMove()) {
+                moveCount++;
+
                 board[row][col] = curr_player;
-                if (checkWinner()) {
+                if (board.checkWinner()) {
                     win = true;
-                    printBoard();
+                    board.printBoard();
                     System.out.println(curr_player + " uh, neethamle...");
                 } else
                     curr_player = curr_player == 'X' ? 'O' : 'X';
@@ -39,69 +56,11 @@ public class XO_Game {
         }
 
         if (!win) {
-            printBoard();
+            board.printBoard();
             System.out.println("Idiapoom...");
         }
         sc.close();
     }
 
-    private void printBoard() {
-        System.out.println();
-        for (int i = 0; i < grid; i++) {
-            for (int j = 0; j < grid; j++) {
-                char c = board[i][j];
-                System.out.print(c == '\0' ? '\u2022' : c);
-                System.out.print("   ");
-            }
-            System.out.println("\n");
-        }
-        System.out.println();
-    }
 
-    private boolean isValidMove() {
-        return row >= 0 && row < grid && col >= 0 && col < grid && board[row][col] == '\0';
-    }
-
-    private boolean checkWinner() {
-        return checkRow() || checkCol() || checkDiag();
-    }
-
-    private boolean checkRow() {
-        for (int j = 0; j < grid; j++) {
-            if (board[row][j] != curr_player) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean checkCol() {
-        for (int i = 0; i < grid; i++) {
-            if (board[i][col] != curr_player) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean checkDiag() {
-        boolean diag1 = true, diag2 = true;
-        for (int i = 0; i < grid; i++) {
-            if (board[i][i] != curr_player) {
-                diag1 = false;
-            }
-            if (board[i][grid - i - 1] != curr_player) {
-                diag2 = false;
-            }
-        }
-        return diag1 || diag2;
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter grid size and first player: ");
-        XO_Game xo = new XO_Game(sc.nextInt(), sc.next().toUpperCase().charAt(0));
-        xo.start();
-        sc.close();
-    }
 }

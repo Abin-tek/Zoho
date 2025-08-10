@@ -4,7 +4,10 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public boolean canMove(Spot start, Spot end, Board board) {
+    public boolean canMove(Move move) {
+
+        Spot start = move.start;
+        Spot end = move.end;
         char start_file = start.getFile();
         char end_file = end.getFile();
         char start_rank = start.getRank();
@@ -19,7 +22,7 @@ public class Bishop extends Piece {
         dx = (start_file < end_file) ? 1 : -1;
         dy = (start_rank < end_rank) ? 1 : -1;
 
-        return isPathClear(dx, dy, start_file, end_file, start_rank, board);
+        return isPathClear(dx, dy, start_file, end_file, start_rank, move.board);
     }
 
     public boolean isPathClear(int dx, int dy, char start_file, char end_file, char start_rank, Board board) {

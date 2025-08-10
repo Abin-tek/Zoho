@@ -1,5 +1,5 @@
 
-public class Rook extends Piece {
+public class Rook extends Piece implements CrossMove{
 
 
     public Rook(boolean white) {
@@ -7,7 +7,10 @@ public class Rook extends Piece {
     }
 
     @Override
-    public boolean canMove(Spot start, Spot end, Board board) {
+    public boolean canMove(Move move) {
+        Spot start = move.start;
+        Spot end = move.end;
+
         char start_file = start.getFile();
         char end_file = end.getFile();
         char start_rank = start.getRank();
@@ -22,7 +25,7 @@ public class Rook extends Piece {
             step = -1;
         }
 
-        return isPathClear(start_file, end_file, start_rank, end_rank, board);
+        return isPathClear(start_file, end_file, start_rank, end_rank, move.board);
     }
 
     public boolean isPathClear(char start_file, char end_file, char start_rank, char end_rank, Board board) {

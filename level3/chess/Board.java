@@ -76,7 +76,8 @@ public class Board extends JPanel {
         if (end_piece != null && end_piece.isWhite() == currentPlayer.isWhite())
             return false;
 
-        if (start_piece.canMove(start, end, this)) {
+        Move move = new Move(currentPlayer, start, end, this);
+        if (start_piece.canMove(move)) {
             currentPlayer.makeMove(start, end);
             return true;
         }

@@ -23,7 +23,7 @@ public abstract class Piece {
         return white;
     }
 
-    public boolean canMove(Spot start, Spot end, Board board) {
+    public boolean canMove(Move move) {
         return false;
     }
 

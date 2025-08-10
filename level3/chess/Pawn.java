@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 public class Pawn extends Piece {
     private boolean first_move;
 
@@ -7,7 +9,9 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean canMove(Spot start, Spot end, Board board) {
+    public boolean canMove(Move move) {
+        Spot start = move.start;
+        Spot end = move.end;
         char start_rank = start.getRank();
         char start_file = start.getFile();
         char end_rank = end.getRank();
@@ -31,7 +35,7 @@ public class Pawn extends Piece {
                 return false;
         }
 
-        return isPathClear(start_file, end_file, start_rank, end_rank, board);
+        return isPathClear(start_file, end_file, start_rank, end_rank, move.board);
     }
 
     public boolean isPathClear(char start_file, char end_file, char start_rank, char end_rank, Board board) {
