@@ -9,8 +9,4 @@ public abstract class Piece {
     public char getName() {
         return name;
     }
-
-    public void setName(char name) {
-        this.name = name;
-    }
 }
