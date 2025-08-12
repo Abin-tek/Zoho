@@ -72,17 +72,17 @@ public class State implements Cloneable {
         this.currPlayer = currPlayer;
     }
 
-    public State Max(State state) {
-        return this.value > state.value ? this : state;
+    public boolean Max(State state) {
+        return state.value > this.value;
     }
 
-    public State Min(State state) {
-        return (this.value < state.value) ? this : state;
+    public boolean Min(State state) {
+        return state.value < this.value;
     }
 
     public void result() {
         if (board.isWin(id, currPlayer)) {
-            value = currPlayer.getName() == 'X'? -1 : 1;
+            value = currPlayer.isMax() ? 10 - depth : depth - 10;
         } else if (depth == 9) {
             value = 0;
         } else {

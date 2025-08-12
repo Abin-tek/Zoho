@@ -1,5 +1,5 @@
 public class X extends Player{
-    public X() {
-        super('X');
+    public X(boolean max) {
+        super('X', max);
     }
 }
