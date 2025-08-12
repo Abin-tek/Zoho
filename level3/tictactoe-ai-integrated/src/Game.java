@@ -7,7 +7,7 @@ public class Game {
     private final X playerX;
     private final O playerO;
     private Player currPlayer;
-    private final Player firstPlayer;
+    private final Player human;
     private final Stack<Move> undoStack;
     private final Stack<Move> redoStack;
     private Move move;
@@ -17,12 +17,16 @@ public class Game {
         System.out.println("Game Started...");
 
         this.sc = new Scanner(System.in);
-        this.playerX = new X();
-        this.playerO = new O();
 
         System.out.print("X or O ? : ");
         char c = sc.next().toUpperCase().charAt(0);
-        this.firstPlayer = c == 'X' ? playerX : playerO;
+
+        this.playerX = new X(c == 'O');
+        this.playerO = new O(c == 'X');
+
+
+        this.human = playerO.isMax() ? playerX : playerO;
+
         this.currPlayer = playerX;
 
         this.board = new Board();
@@ -63,7 +67,7 @@ public class Game {
     private int getMove() {
         System.out.print("Move " + count + ", " + currPlayer.getName() + " turn: ");
 
-        if (currPlayer.equals(firstPlayer)) {
+        if (currPlayer.equals(human)) {
             char ip = sc.next().toUpperCase().charAt(0);
 
             if (Character.isDigit(ip))
@@ -111,7 +115,7 @@ public class Game {
     }
 
     private int playAI() {
-        State state = new State(board.clone(), currPlayer, false, count - 1, Integer.MAX_VALUE, 0, false);
+        State state = new State(board.clone(), currPlayer, currPlayer.isMax(), count, Integer.MIN_VALUE, 0, false);
         State res = miniMax(state);
         System.out.print(res.getId());
 
@@ -125,47 +129,49 @@ public class Game {
         if (state.isMax()) {
             State max = state.clone();
             max.setValue(Integer.MIN_VALUE);
-            int score = 0;
             for (int i = 1; i <= 9; i++) {
                 if (state.getBoard().isValid(i)) {
                     State curr = state.clone();
                     curr.getBoard().playMove(i, curr.getCurrPlayer());
-                    curr.setDepth(curr.getDepth() + 1);
                     curr.setId(i);
                     curr.result();
+                    curr.setDepth(curr.getDepth() + 1);
 
                     curr.setCurrPlayer(togglePlayer(curr.getCurrPlayer()));
-                    curr.setMax(!curr.isMax());
+                    curr.setMax(curr.getCurrPlayer().isMax());
 
-                    max = max.Max(miniMax(curr));
-                    score += max.getValue();
+                    State res = miniMax(curr);
+                    if (max.Max(res)) {
+                        curr.setValue(res.getValue());
+                        max = curr;
+                    }
                 }
             }
 
-            max.setValue(score);
             return max;
 
         } else {
             State min = state.clone();
             min.setValue(Integer.MAX_VALUE);
-            int score = 0;
             for (int i = 1; i <= 9; i++) {
                 if (state.getBoard().isValid(i)) {
                     State curr = state.clone();
                     curr.getBoard().playMove(i, curr.getCurrPlayer());
-                    curr.setDepth(state.getDepth() + 1);
                     curr.setId(i);
                     curr.result();
 
-                    curr.setMax(!curr.isMax());
+                    curr.setDepth(curr.getDepth() + 1);
                     curr.setCurrPlayer(togglePlayer(curr.getCurrPlayer()));
+                    curr.setMax(curr.getCurrPlayer().isMax());
 
-                    min = min.Min(miniMax(curr));
-                    score += min.getValue();
+                    State res = miniMax(curr);
+                    if (min.Min(res)){
+                        curr.setValue(res.getValue());
+                        min = curr;
+                    }
                 }
             }
 
-            min.setValue(score);
             return min;
 
         }
