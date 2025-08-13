@@ -1,8 +1,10 @@
 public class Board implements Cloneable {
     private Cell[][] grid;
+    private int depth;
 
     public Board() {
-        this.grid = new Cell[3][3];
+        depth = 1;
+        grid = new Cell[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 grid[i][j] = new Cell(3 * i + j + 1, i, j);
@@ -88,5 +90,13 @@ public class Board implements Cloneable {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 }

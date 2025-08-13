@@ -6,10 +6,9 @@ public class Game {
     private final O playerO;
     private Player currPlayer;
     private final Player human;
-    private final UndoRedo undoRedo;
+    private final MoveHistory moveHistory;
     private Board board;
     private Move move;
-    private int count;
 
     public Game() {
         System.out.println("Game Started...");
@@ -22,20 +21,19 @@ public class Game {
         currPlayer = playerX;
         human = playerO.isMax() ? playerX : playerO;
 
-        undoRedo = new UndoRedo();
+        moveHistory = new MoveHistory();
         move = new Move(0, 0, board, null);
-        undoRedo.getUndoStack().add(move);
-        this.count = 1;
+        moveHistory.getUndoStack().add(move);
         board = new Board();
     }
 
     public void start() {
-        while (count < 10) {
+        while (board.getDepth() < 10) {
             int id = getMove();
 
             if (board.movePlayed(id, currPlayer)) {
-                move = new Move(count, id, board.clone(), currPlayer);
-                undoRedo.getUndoStack().add(move);
+                move = new Move(board.getDepth(), id, board.clone(), currPlayer);
+                moveHistory.getUndoStack().add(move);
                 move.show();
 
                 if (board.isWin(id, currPlayer)) {
@@ -44,49 +42,42 @@ public class Game {
                 }
 
                 currPlayer = togglePlayer(currPlayer);
-                count++;
+                board.setDepth(board.getDepth()+1);
             }
         }
 
-        if (count == 10)
-            System.out.println("Match Draw!");
+        if (board.getDepth() == 10) System.out.println("Match Draw!");
         System.out.println("Game over...");
         sc.close();
     }
 
     private int getMove() {
-        System.out.print("Move " + count + ", " + currPlayer.getName() + " turn: ");
-
         if (currPlayer.equals(human)) {
+            System.out.print("Move " + board.getDepth() + ", " + currPlayer.getName() + " turn: ");
             char ip = sc.next().toUpperCase().charAt(0);
 
-            if (Character.isDigit(ip))
-                return ip - '0';
+            if (Character.isDigit(ip)) return ip - '0';
 
             switch (ip) {
                 case 'U':
-                    board = undoRedo.undo();
-                    count -= 2;
+                    board = moveHistory.undo();
                     break;
                 case 'R':
-                    board = undoRedo.redo();
-                    count += 2;
+                    board = moveHistory.redo();
                     break;
             }
 
             return getMove();
-        } else
-            return playAI();
+        } else return playAI();
     }
 
     private int playAI() {
-        State state = new State(board.clone(), currPlayer, currPlayer.isMax(), count, Integer.MIN_VALUE, 0, false);
-        return miniMax(state).getId();
+        State state = new State(board.clone(), currPlayer, currPlayer.isMax(), board.getDepth(), Integer.MIN_VALUE, 0, false);
+        return alphaBeta(state, Integer.MIN_VALUE, Integer.MAX_VALUE).getId();
     }
 
-    private State miniMax(State state) {
-        if (state.isTerminal())
-            return state;
+    private State alphaBeta(State state, int alpha, int beta) {
+        if (state.isTerminal()) return state;
 
         if (state.isMax()) {
             State max = state.clone();
@@ -94,15 +85,16 @@ public class Game {
             for (int i = 1; i <= 9; i++) {
                 if (state.getBoard().isValid(i)) {
                     State curr = state.clone();
-
                     curr.evaluate(i, this::togglePlayer);
-
-                    State res = miniMax(curr);
+                    State res = alphaBeta(curr, alpha, beta);
                     if (max.Max(res)) {
                         curr.setValue(res.getValue());
                         max = curr;
+                        alpha = res.getValue();
                     }
                 }
+                if (alpha >= beta)
+                    break;
             }
 
             return max;
@@ -112,15 +104,16 @@ public class Game {
             for (int i = 1; i <= 9; i++) {
                 if (state.getBoard().isValid(i)) {
                     State curr = state.clone();
-
                     curr.evaluate(i, this::togglePlayer);
-
-                    State res = miniMax(curr);
+                    State res = alphaBeta(curr, alpha, beta);
                     if (min.Min(res)) {
                         curr.setValue(res.getValue());
                         min = curr;
+                        beta = res.getValue();
                     }
                 }
+                if (alpha >= beta)
+                    break;
             }
 
             return min;

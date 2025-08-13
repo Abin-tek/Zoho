@@ -1,10 +1,10 @@
 import java.util.Stack;
 
-public class UndoRedo {
+public class MoveHistory {
     private final Stack<Move> undoStack;
     private final Stack<Move> redoStack;
 
-    public UndoRedo() {
+    public MoveHistory() {
         this.undoStack = new Stack<>();
         this.redoStack = new Stack<>();
     }
