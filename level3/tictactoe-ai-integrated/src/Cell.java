@@ -25,6 +25,10 @@ public class Cell implements Cloneable {
         this.player = player;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public int getRow() {
         return row;
     }
@@ -35,9 +39,5 @@ public class Cell implements Cloneable {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public int getId() {
-        return id;
     }
 }

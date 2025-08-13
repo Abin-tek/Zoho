@@ -1,3 +1,3 @@
 public interface Toggle {
-    Player togglePlayer();
+    Player togglePlayer(Player player);
 }

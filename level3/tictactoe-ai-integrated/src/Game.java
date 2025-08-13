@@ -43,7 +43,7 @@ public class Game {
                     break;
                 }
 
-                currPlayer = togglePlayer();
+                currPlayer = togglePlayer(currPlayer);
                 count++;
             }
         }
@@ -127,7 +127,7 @@ public class Game {
         }
     }
 
-    private Player togglePlayer() {
-        return currPlayer.equals(playerX) ? playerO : playerX;
+    private Player togglePlayer(Player player) {
+        return player.equals(playerX) ? playerO : playerX;
     }
 }

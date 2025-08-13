@@ -79,6 +79,6 @@ public class State implements Cloneable {
 
         depth++;
         max = !max;
-        currPlayer = callBack.togglePlayer();
+        currPlayer = callBack.togglePlayer(currPlayer);
     }
 }
