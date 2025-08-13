@@ -32,10 +32,6 @@ public class State implements Cloneable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Board getBoard() {
         return board;
     }
@@ -44,32 +40,12 @@ public class State implements Cloneable {
         return max;
     }
 
-    public void setMax(boolean max) {
-        this.max = max;
-    }
-
-    public int getDepth() {
-        return depth;
-    }
-
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
-
     public int getValue() {
         return value;
     }
 
     public void setValue(int value) {
         this.value = value;
-    }
-
-    public Player getCurrPlayer() {
-        return currPlayer;
-    }
-
-    public void setCurrPlayer(Player currPlayer) {
-        this.currPlayer = currPlayer;
     }
 
     public boolean Max(State state) {
@@ -94,5 +70,15 @@ public class State implements Cloneable {
 
     public boolean isTerminal() {
         return terminal;
+    }
+
+    protected void evaluate(int i, Toggle callBack) {
+        board.playMove(i, currPlayer);
+        id = i;
+        result();
+
+        depth++;
+        max = !max;
+        currPlayer = callBack.togglePlayer();
     }
 }
