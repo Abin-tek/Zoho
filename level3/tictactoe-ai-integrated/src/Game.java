@@ -16,7 +16,7 @@ public class Game {
         sc = new Scanner(System.in);
         char c = sc.next().toUpperCase().charAt(0);
 
-        playerX = new X(c == 'O');
+        playerX = new X(c != 'X');  // X will be default maximizer
         playerO = new O(c == 'X');
         currPlayer = playerX;
         human = playerO.isMax() ? playerX : playerO;
