@@ -9,6 +9,7 @@ public class Game {
     private final MoveHistory moveHistory;
     private Board board;
     private Move move;
+    private final AI ai;
 
     public Game() {
         System.out.println("Game Started...");
@@ -21,10 +22,11 @@ public class Game {
         currPlayer = playerX;
         human = playerO.isMax() ? playerX : playerO;
 
+        board = new Board();
         moveHistory = new MoveHistory();
         move = new Move(0, 0, board, null);
         moveHistory.getUndoStack().add(move);
-        board = new Board();
+        ai = new AI(this);
     }
 
     public void start() {
@@ -68,59 +70,10 @@ public class Game {
             }
 
             return getMove();
-        } else return playAI();
+        } else return ai.play(board, currPlayer);
     }
 
-    private int playAI() {
-        State state = new State(board.clone(), currPlayer, currPlayer.isMax(), board.getDepth(), Integer.MIN_VALUE, 0, false);
-        return alphaBeta(state, Integer.MIN_VALUE, Integer.MAX_VALUE).getId();
-    }
-
-    private State alphaBeta(State state, int alpha, int beta) {
-        if (state.isTerminal()) return state;
-
-        if (state.isMax()) {
-            State max = state.clone();
-            max.setValue(Integer.MIN_VALUE);
-            for (int i = 1; i <= 9; i++) {
-                if (state.getBoard().isValid(i)) {
-                    State curr = state.clone();
-                    curr.evaluate(i, this::togglePlayer);
-                    State res = alphaBeta(curr, alpha, beta);
-                    if (max.Max(res)) {
-                        curr.setValue(res.getValue());
-                        max = curr;
-                        alpha = res.getValue();
-                    }
-                }
-                if (alpha >= beta)
-                    break;
-            }
-
-            return max;
-        } else {
-            State min = state.clone();
-            min.setValue(Integer.MAX_VALUE);
-            for (int i = 1; i <= 9; i++) {
-                if (state.getBoard().isValid(i)) {
-                    State curr = state.clone();
-                    curr.evaluate(i, this::togglePlayer);
-                    State res = alphaBeta(curr, alpha, beta);
-                    if (min.Min(res)) {
-                        curr.setValue(res.getValue());
-                        min = curr;
-                        beta = res.getValue();
-                    }
-                }
-                if (alpha >= beta)
-                    break;
-            }
-
-            return min;
-        }
-    }
-
-    private Player togglePlayer(Player player) {
+    protected Player togglePlayer(Player player) {
         return player.equals(playerX) ? playerO : playerX;
     }
 }

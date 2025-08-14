@@ -48,12 +48,8 @@ public class State implements Cloneable {
         this.value = value;
     }
 
-    public boolean Max(State state) {
+    public boolean compare(State state) {
         return state.value > this.value;
-    }
-
-    public boolean Min(State state) {
-        return state.value < this.value;
     }
 
     public void result() {
