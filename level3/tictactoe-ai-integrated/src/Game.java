@@ -1,7 +1,4 @@
-import java.util.Scanner;
-
 public class Game {
-    private final Scanner sc;
     private final X playerX;
     private final O playerO;
     private Player currPlayer;
@@ -10,27 +7,27 @@ public class Game {
     private Board board;
     private Move move;
     private final AI ai;
+    private static final int max_depth = 10;
 
     public Game() {
         System.out.println("Game Started...");
         System.out.print("X or O ? : ");
-        sc = new Scanner(System.in);
-        char c = sc.next().toUpperCase().charAt(0);
+        char c = InputHandler.getUserInput();
 
         playerX = new X(c != 'X');  // X will be default maximizer
         playerO = new O(c == 'X');
         currPlayer = playerX;
         human = playerO.isMax() ? playerX : playerO;
 
-        board = new Board();
         moveHistory = new MoveHistory();
+        board = new Board();
         move = new Move(0, 0, board, null);
         moveHistory.getUndoStack().add(move);
         ai = new AI(this);
     }
 
     public void start() {
-        while (board.getDepth() < 10) {
+        while (board.getDepth() < max_depth) {
             int id = getMove();
 
             if (board.movePlayed(id, currPlayer)) {
@@ -48,15 +45,14 @@ public class Game {
             }
         }
 
-        if (board.getDepth() == 10) System.out.println("Match Draw!");
+        if (board.getDepth() == max_depth) System.out.println("Match Draw!");
         System.out.println("Game over...");
-        sc.close();
     }
 
     private int getMove() {
         if (currPlayer.equals(human)) {
             System.out.print("Move " + board.getDepth() + ", " + currPlayer.getName() + " turn: ");
-            char ip = sc.next().toUpperCase().charAt(0);
+            char ip = InputHandler.getUserInput();
 
             if (Character.isDigit(ip)) return ip - '0';
 

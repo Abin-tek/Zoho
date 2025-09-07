@@ -1,13 +1,14 @@
 public class Board implements Cloneable {
     private Cell[][] grid;
     private int depth;
+    private static final int n = 3;
 
     public Board() {
         depth = 1;
-        grid = new Cell[3][3];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                grid[i][j] = new Cell(3 * i + j + 1, i, j);
+        grid = new Cell[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                grid[i][j] = new Cell(n * i + j + 1, i, j);
             }
         }
         printBoard();
@@ -16,9 +17,9 @@ public class Board implements Cloneable {
     @Override
     public Board clone() {
         try {
-            Cell[][] newGrid = new Cell[3][3];
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
+            Cell[][] newGrid = new Cell[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
                     newGrid[i][j] = grid[i][j].clone();
                 }
             }
@@ -33,9 +34,9 @@ public class Board implements Cloneable {
     private boolean checkDiagonals(char name) {
         boolean left = true;
         boolean right = true;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < n; i++) {
             Player leftPlayer = grid[i][i].getPlayer();
-            Player rightPlayer = grid[i][2 - i].getPlayer();
+            Player rightPlayer = grid[i][n - i - 1].getPlayer();
             if (left && (leftPlayer == null || leftPlayer.getName() != name)) left = false;
             if (right && (rightPlayer == null || rightPlayer.getName() != name)) right = false;
         }
@@ -45,7 +46,7 @@ public class Board implements Cloneable {
     private boolean checkRowCol(int row, int col, char name) {
         boolean rowWin = true;
         boolean colWin = true;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < n; i++) {
             Player rowPlayer = grid[row][i].getPlayer();
             Player colPlayer = grid[i][col].getPlayer();
             if (rowWin && (rowPlayer == null || rowPlayer.getName() != name)) rowWin = false;
@@ -70,18 +71,18 @@ public class Board implements Cloneable {
     }
 
     protected boolean isValid(int id) {
-        return id >= 1 && id <= 9 && getCell(id).getPlayer() == null;
+        return id >= 1 && id <= (n * n) && getCell(id).getPlayer() == null;
     }
 
     public Cell getCell(int id) {
         id -= 1;
-        return grid[id / 3][id % 3];
+        return grid[id / n][id % n];
     }
 
     protected void printBoard() {
         System.out.println();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 Cell cell = grid[i][j];
                 if (cell.getPlayer() == null) System.out.print(cell.getId());
                 else System.out.print(cell.getPlayer().getName());
