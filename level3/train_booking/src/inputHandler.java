@@ -42,11 +42,11 @@ public class inputHandler {
         }
     }
 
-    private char destinationStationInput() {
+    private char destinationStationInput(char source) {
         while (true) {
             try {
                 char station = sc.next().toUpperCase().charAt(0);
-                if (station < 'B' || station > 'E')
+                if (station < 'B' || station > 'E' || station == source)
                     throw new InputMismatchException();
                 return station;
             } catch (InputMismatchException e) {
@@ -59,7 +59,7 @@ public class inputHandler {
         System.out.print("Enter Source: ");
         char source = sourceStationInput();
         System.out.print("Enter Destination: ");
-        char destination = destinationStationInput();
+        char destination = destinationStationInput(source);
         System.out.print("Enter Seats: ");
         int seats = numberInput();
 
